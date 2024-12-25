@@ -5,13 +5,15 @@ class Explorescreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        SearchBarWidget(),
-        Text('Trending'),
-        Text('Categories'),
-        Text('For you'),
-      ],
+    return const SafeArea(
+      child: Column(
+        children: [
+          SearchBarWidget(),
+          Text('Trending'),
+          Text('Categories'),
+          Text('For you'),
+        ],
+      ),
     );
   }
 }

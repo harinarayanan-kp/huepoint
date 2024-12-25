@@ -5,16 +5,19 @@ class Profilecard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.red,
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, right: 10),
+      child: Column(children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.red,
+          ),
+          height: 100,
+          width: 100,
         ),
-        height: 100,
-        width: 100,
-      ),
-      const Text('Harinarayanan K P')
-    ]);
+        const Text('Hari')
+      ]),
+    );
   }
 }

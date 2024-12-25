@@ -34,7 +34,7 @@ class Homescreen extends StatelessWidget {
               width: 30,
             ), // Notification icon
             onPressed: () {
-              Navigator.pushNamed(context, '/notifications');
+              Navigator.pushNamed(context, pager);
             },
           ),
           IconButton(
@@ -51,12 +51,41 @@ class Homescreen extends StatelessWidget {
       ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
-        child: const Column(
-          children: [
-            SizedBox(height: 20),
-            Postcard(),
-            Profilecard(),
-          ],
+        child: const SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              Postcard(),
+              Postcard(),
+              Postcard(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Text(
+                      'Recommended artists',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    padding: EdgeInsets.only(left: 20),
+                    physics: BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        Profilecard(),
+                        Profilecard(),
+                        Profilecard(),
+                        Profilecard(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:huepoint/screens/create_post_screen.dart';
+import 'package:huepoint/screens/market_screen.dart';
 import 'package:huepoint/screens/explore_screen.dart';
 import 'package:huepoint/screens/home_screen.dart';
 import 'package:huepoint/screens/profile_screen.dart';
@@ -19,7 +19,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
   static const List<Widget> _widgetOptions = <Widget>[
     Homescreen(),
     Explorescreen(),
-    Createpostscreen(),
+    MarketScreen(),
     Searchscreen(),
     Profilescreen(),
   ];
@@ -49,40 +49,42 @@ class _HomeWrapperState extends State<HomeWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF6F7ED),
-      body: Center(
-        child: IndexedStack(
-          index: _selectedIndex,
-          children: _widgetOptions,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF6F7ED),
+        body: Center(
+          child: IndexedStack(
+            index: _selectedIndex,
+            children: _widgetOptions,
+          ),
         ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Material(
-          elevation: 10,
-          borderRadius: BorderRadius.circular(20),
-          child: ClipRRect(
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Material(
+            elevation: 10,
             borderRadius: BorderRadius.circular(20),
-            child: BottomNavigationBar(
-              selectedItemColor: Colors.black,
-              showSelectedLabels: true,
-              showUnselectedLabels: false,
-              type: BottomNavigationBarType.fixed,
-              backgroundColor: Colors.white,
-              elevation: 0,
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
-              items: List.generate(5, (index) {
-                return BottomNavigationBarItem(
-                  icon: SvgPicture.asset(
-                    _getIconAsset(index),
-                    height: 30,
-                    width: 30,
-                  ),
-                  label: _getLabel(index),
-                );
-              }),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: BottomNavigationBar(
+                selectedItemColor: Colors.black,
+                showSelectedLabels: true,
+                showUnselectedLabels: false,
+                type: BottomNavigationBarType.fixed,
+                backgroundColor: Colors.white,
+                elevation: 0,
+                currentIndex: _selectedIndex,
+                onTap: _onItemTapped,
+                items: List.generate(5, (index) {
+                  return BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      _getIconAsset(index),
+                      height: 30,
+                      width: 30,
+                    ),
+                    label: _getLabel(index),
+                  );
+                }),
+              ),
             ),
           ),
         ),

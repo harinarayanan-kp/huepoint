@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:huepoint/screens/analytics_screen.dart';
-import 'package:huepoint/screens/create_post_screen.dart';
+import 'package:huepoint/screens/market_screen.dart';
 import 'package:huepoint/screens/home_wrapper.dart';
 import 'package:huepoint/screens/inbox_screen.dart';
 import 'package:huepoint/screens/login_screen.dart';
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         home: SafeArea(child: LoginScreen()),
         routes: <String, WidgetBuilder>{
           '/home': (BuildContext context) => const HomeWrapper(),
-          '/createpost': (BuildContext context) => const Createpostscreen(),
+          '/createpost': (BuildContext context) => const MarketScreen(),
           '/inbox': (BuildContext context) => const Inboxscreen(),
           '/notifications': (BuildContext context) => const Notificationscreen(),
           '/analytics': (BuildContext context) => const Analyticsscreen(),
