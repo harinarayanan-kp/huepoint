@@ -34,7 +34,7 @@ class Homescreen extends StatelessWidget {
               width: 30,
             ), // Notification icon
             onPressed: () {
-              Navigator.pushNamed(context, pager);
+              Navigator.pushNamed(context, '/notifications');
             },
           ),
           IconButton(

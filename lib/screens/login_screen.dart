@@ -1,84 +1,81 @@
 import 'package:flutter/material.dart';
-import 'package:huepoint/screens/forgot_password_screen.dart';
-import 'package:huepoint/screens/signup_screen.dart';
+import '../services/auth_service.dart';
+import 'signup_screen.dart';
+import 'home_wrapper.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _authService = AuthService();
+  String _email = '';
+  String _password = '';
+  String _errorMessage = '';
 
-  void _performLogin() {
-    // final username = _usernameController.text;
-    // final password = _passwordController.text;
-    print('Username: \$username, Password: \$password');
-    // Add your login logic here
-    Navigator.pushNamed(context, '/home');
-  }
-
-  void _navigateToForgotPassword() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ForgotPasswordScreen()),
-    );
-  }
-
-  void _navigateToSignUp() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => SignUpScreen()),
-    );
+  void _login() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      try {
+        await _authService.login(_email, _password);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeWrapper()),
+        );
+      } catch (e) {
+        setState(() {
+          _errorMessage = e.toString();
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
+      appBar: AppBar(title: const Text('Login')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(
-                labelText: 'Username',
-                border: OutlineInputBorder(),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              if (_errorMessage.isNotEmpty)
+                Text(
+                  _errorMessage,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Email'),
+                onSaved: (value) => _email = value!,
+                validator: (value) => value!.isEmpty ? 'Email is required' : null,
               ),
-            ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Password'),
+                onSaved: (value) => _password = value!,
+                validator: (value) => value!.isEmpty ? 'Password is required' : null,
+                obscureText: true,
               ),
-              obscureText: true,
-            ),
-            const SizedBox(height: 32.0),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                elevation: 0,
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _login,
+                child: const Text('Login'),
               ),
-              onPressed: _performLogin,
-              child: const Text('Login'),
-            ),
-            TextButton(
-              onPressed: _navigateToForgotPassword,
-              child: const Text('Forgot Password?'),
-            ),
-            TextButton(
-              onPressed: _navigateToSignUp,
-              child: const Text('Sign Up'),
-            ),
-          ],
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignupScreen()),
+                  );
+                },
+                child: const Text('Don\'t have an account? Signup'),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:huepoint/components/custom_button.dart';
+import 'package:huepoint/screens/login_screen.dart';
+import 'package:huepoint/services/auth_service.dart';
 
 class Profilescreen extends StatelessWidget {
-  const Profilescreen({super.key});
+  Profilescreen({super.key});
+  final AuthService _authService = AuthService();
+
+  void _logout(BuildContext context) async {
+    await _authService.logout();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +72,10 @@ class Profilescreen extends StatelessWidget {
               ),
             ],
           ),
+        ),
+        CustomButton(
+          label: 'LOGOUT',
+          onPressed: () => _logout(context),
         )
       ],
     );

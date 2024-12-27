@@ -16,11 +16,11 @@ class HomeWrapper extends StatefulWidget {
 class _HomeWrapperState extends State<HomeWrapper> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Homescreen(),
-    Explorescreen(),
-    MarketScreen(),
-    Searchscreen(),
+  static List<Widget> _widgetOptions = <Widget>[
+    const Homescreen(),
+    const Explorescreen(),
+    const MarketScreen(),
+    const Searchscreen(),
     Profilescreen(),
   ];
 
@@ -60,9 +60,20 @@ class _HomeWrapperState extends State<HomeWrapper> {
         ),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(10),
-          child: Material(
-            elevation: 10,
-            borderRadius: BorderRadius.circular(20),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.black, width: 2),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black, // Adjust the color and opacity for a harsh shadow
+                  spreadRadius: 0,
+                  blurRadius: 0,
+                  offset: Offset(4, 4), // changes position of shadow
+                ),
+              ],
+            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: BottomNavigationBar(
