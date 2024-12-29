@@ -12,8 +12,8 @@ class AuthService {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'name': name, 'email': email, 'password': password}),
     );
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    // print('Response status: ${response.statusCode}');
+    // print('Response body: ${response.body}');
     if (response.statusCode == 201) {
       return jsonDecode(response.body);
     } else {

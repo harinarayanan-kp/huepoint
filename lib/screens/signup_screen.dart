@@ -1,87 +1,78 @@
 import 'package:flutter/material.dart';
-import '../services/auth_service.dart';
-import 'login_screen.dart';
-import 'home_wrapper.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
-
   @override
   _SignupScreenState createState() => _SignupScreenState();
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _authService = AuthService();
-  String _name = '';
-  String _email = '';
-  String _password = '';
-  String _errorMessage = '';
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  void _signup() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      try {
-        await _authService.signup(_name, _email, _password);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeWrapper()),
-        );
-      } catch (e) {
-        setState(() {
-          _errorMessage = 'Signup failed: ${e.toString()}';
-        });
-      }
+  Future<void> _signup() async {
+    final response = await http.post(
+      Uri.parse('http://localhost:5000/api/auth/signup'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'name': _nameController.text,
+        'email': _emailController.text,
+        'password': _passwordController.text,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      final data = jsonDecode(response.body);
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', data['token']);
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      // Handle error
+      print('Error: ${response.body}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to sign up: ${response.body}')),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Signup')),
+      appBar: AppBar(
+        title: Text('Signup'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              if (_errorMessage.isNotEmpty)
-                Text(
-                  _errorMessage,
-                  style: const TextStyle(color: Colors.red),
-                ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Name'),
-                onSaved: (value) => _name = value!,
-                validator: (value) => value!.isEmpty ? 'Name is required' : null,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Email'),
-                onSaved: (value) => _email = value!,
-                validator: (value) => value!.isEmpty ? 'Email is required' : null,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Password'),
-                onSaved: (value) => _password = value!,
-                validator: (value) => value!.isEmpty ? 'Password is required' : null,
-                obscureText: true,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _signup,
-                child: const Text('Signup'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()),
-                  );
-                },
-                child: const Text('Already have an account? Login'),
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(labelText: 'Name'),
+            ),
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(labelText: 'Email'),
+            ),
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(labelText: 'Password'),
+              obscureText: true,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _signup,
+              child: Text('Signup'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/login');
+              },
+              child: Text('Already have an account? Login'),
+            ),
+          ],
         ),
       ),
     );

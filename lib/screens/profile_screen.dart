@@ -76,6 +76,14 @@ class Profilescreen extends StatelessWidget {
         CustomButton(
           label: 'LOGOUT',
           onPressed: () => _logout(context),
+        ),
+        CustomButton(
+          label: 'Create POST',
+          onPressed: () => Navigator.pushNamed(context, '/post'),
+        ),
+        CustomButton(
+          label: 'View Post',
+          onPressed: () => Navigator.pushNamed(context, '/feed'),
         )
       ],
     );

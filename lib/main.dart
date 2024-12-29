@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:huepoint/screens/express_screen.dart';
+import 'package:huepoint/screens/feed_screen.dart';
 import 'package:huepoint/screens/market_screen.dart';
 import 'package:huepoint/screens/home_wrapper.dart';
 import 'package:huepoint/screens/inbox_screen.dart';
 import 'package:huepoint/screens/login_screen.dart';
 import 'package:huepoint/screens/notification_screen.dart';
+import 'package:huepoint/screens/post_screen.dart';
 import 'package:huepoint/screens/signup_screen.dart';
 import 'package:huepoint/services/auth_service.dart';
 
@@ -42,8 +44,10 @@ class MyApp extends StatelessWidget {
       ),
       home: const InitialScreen(),
       routes: <String, WidgetBuilder>{
-        '/signup': (context) => const SignupScreen(),
-        '/login': (context) => const LoginScreen(),
+        '/signup': (context) => SignupScreen(),
+        '/login': (context) => LoginScreen(),
+        '/post': (context) => CreatePostScreen(),
+        '/feed': (context) => FeedScreen(),
         '/home': (context) => const HomeWrapper(),
         '/create': (context) => const CreateScreen(),
         '/read': (context) => const ReadScreen(),
@@ -69,7 +73,7 @@ class InitialScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else {
-          return snapshot.data != null ? const HomeWrapper() : const LoginScreen();
+          return snapshot.data != null ? const HomeWrapper() : LoginScreen();
         }
       },
     );
