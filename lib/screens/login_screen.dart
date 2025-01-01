@@ -7,11 +7,9 @@ class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
-
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
   Future<void> _login() async {
     final response = await http.post(
       Uri.parse('http://localhost:5000/api/auth/login'),
