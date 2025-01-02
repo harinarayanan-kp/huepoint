@@ -16,12 +16,12 @@ class HomeWrapper extends StatefulWidget {
 class _HomeWrapperState extends State<HomeWrapper> {
   int _selectedIndex = 0;
 
-  static List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     const Homescreen(),
     const Explorescreen(),
     const MarketScreen(),
     const Searchscreen(),
-    Profilescreen(),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {

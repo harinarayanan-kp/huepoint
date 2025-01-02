@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:huepoint/services/auth_service.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -12,28 +10,21 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
 
   Future<void> _signup() async {
-    final response = await http.post(
-      Uri.parse('http://localhost:5000/api/auth/signup'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'name': _nameController.text,
-        'email': _emailController.text,
-        'password': _passwordController.text,
-      }),
-    );
-
-    if (response.statusCode == 201) {
-      final data = jsonDecode(response.body);
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('token', data['token']);
+    try {
+      await _authService.signup(
+        _nameController.text,
+        _emailController.text,
+        _passwordController.text,
+      );
       Navigator.pushReplacementNamed(context, '/home');
-    } else {
+    } catch (e) {
       // Handle error
-      print('Error: ${response.body}');
+      print('Error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to sign up: ${response.body}')),
+        SnackBar(content: Text('Failed to sign up: $e')),
       );
     }
   }

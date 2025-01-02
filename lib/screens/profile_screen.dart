@@ -4,8 +4,8 @@ import 'package:huepoint/components/custom_button.dart';
 import 'package:huepoint/screens/login_screen.dart';
 import 'package:huepoint/services/auth_service.dart';
 
-class Profilescreen extends StatelessWidget {
-  Profilescreen({super.key});
+class ProfileScreen extends StatelessWidget {
+  ProfileScreen({super.key});
   final AuthService _authService = AuthService();
 
   void _logout(BuildContext context) async {
@@ -16,76 +16,95 @@ class Profilescreen extends StatelessWidget {
     );
   }
 
+  Future<Map<String, String>> _fetchUserDetails() async {
+    String? name = await _authService.getUserName();
+    String? email = await _authService.getUserEmail();
+    return {'name': name.toString(), 'email': email.toString()};
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Stack(
-          alignment: Alignment.topLeft,
-          children: [
-            Container(
-              height: 200,
-              width: MediaQuery.of(context).size.width,
-              color: const Color.fromARGB(255, 142, 145, 147),
-            ),
-            const Column(
-              children: [
-                SizedBox(height: 100),
-                Padding(
-                  padding: EdgeInsets.only(left: 50),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    child: Image(
-                        width: 150,
-                        height: 150,
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                            'https://img.playbook.com/XNH4lc_iT1a3gSf1Wlff-CUhJeUCL_PltGecH2BdACc/w:1000/Z3M6Ly9icmFuZGlm/eS11c2VyY29udGVu/dC1kZXYvcHJvZC9s/YXJnZV9wcmV2aWV3/cy9iODYzNWQyOS1j/YzIwLTRmYmItODVm/Mi05ZjZlNjhjNDM5/NzI.webp')),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 50),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return FutureBuilder<Map<String, String>>(
+      future: _fetchUserDetails(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          final userDetails = snapshot.data!;
+          return Column(
             children: [
-              Row(
+              Stack(
+                alignment: Alignment.topLeft,
                 children: [
-                  const Text(
-                    'Harinarayanan K P',
-                    style: TextStyle(fontSize: 24),
+                  Container(
+                    height: 200,
+                    width: MediaQuery.of(context).size.width,
+                    color: const Color.fromARGB(255, 142, 145, 147),
                   ),
-                  const SizedBox(width: 10),
-                  SvgPicture.asset(
-                    'assets/images/verified_badge.svg',
-                    height: 30,
-                    width: 30,
+                  const Column(
+                    children: [
+                      SizedBox(height: 100),
+                      Padding(
+                        padding: EdgeInsets.only(left: 50),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          child: Image(
+                            width: 150,
+                            height: 150,
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                'https://img.playbook.com/XNH4lc_iT1a3gSf1Wlff-CUhJeUCL_PltGecH2BdACc/w:1000/Z3M6Ly9icmFuZGlm/eS11c2VyY29udGVu/dC1kZXYvcHJvZC9s/YXJnZV9wcmV2aWV3/cy9iODYzNWQyOS1j/YzIwLTRmYmItODVm/Mi05ZjZlNjhjNDM5/NzI.webp'),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              const Text(
-                'Visual Designer',
-                style: TextStyle(fontSize: 12),
+              Padding(
+                padding: const EdgeInsets.only(left: 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          userDetails['name']!,
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                        const SizedBox(width: 10),
+                        SvgPicture.asset(
+                          'assets/images/verified_badge.svg',
+                          height: 30,
+                          width: 30,
+                        ),
+                      ],
+                    ),
+                    Text(
+                      userDetails['email']!,
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ],
+                ),
               ),
+              CustomButton(
+                label: 'LOGOUT',
+                onPressed: () => _logout(context),
+              ),
+              CustomButton(
+                label: 'Create POST',
+                onPressed: () => Navigator.pushNamed(context, '/post'),
+              ),
+              CustomButton(
+                label: 'View Post',
+                onPressed: () => Navigator.pushNamed(context, '/feed'),
+              )
             ],
-          ),
-        ),
-        CustomButton(
-          label: 'LOGOUT',
-          onPressed: () => _logout(context),
-        ),
-        CustomButton(
-          label: 'Create POST',
-          onPressed: () => Navigator.pushNamed(context, '/post'),
-        ),
-        CustomButton(
-          label: 'View Post',
-          onPressed: () => Navigator.pushNamed(context, '/feed'),
-        )
-      ],
+          );
+        }
+      },
     );
   }
 }
