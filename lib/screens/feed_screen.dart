@@ -47,10 +47,10 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Feed'),
+        title: const Text('Feed'),
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : _errorMessage != null
               ? Center(child: Text(_errorMessage!))
               : ListView.builder(
@@ -58,7 +58,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   itemBuilder: (context, index) {
                     final post = _posts[index];
                     return ListTile(
-                      leading: post['imageUrl'] != null ? Image.network(post['imageUrl']) : Icon(Icons.image),
+                      leading: post['imageUrl'] != null ? Image.network(post['imageUrl']) : const Icon(Icons.image),
                       title: Text(post['description']),
                       subtitle: Text('By ${post['username']}'),
                       onTap: () => Navigator.push(
@@ -75,7 +75,7 @@ class _FeedScreenState extends State<FeedScreen> {
             MaterialPageRoute(builder: (context) => CreatePostScreen()),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

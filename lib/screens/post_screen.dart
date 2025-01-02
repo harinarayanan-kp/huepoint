@@ -20,7 +20,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       // Handle missing token
       print('Error: No token found');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('No token found')),
+        const SnackBar(content: Text('No token found')),
       );
       return;
     }
@@ -60,7 +60,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Post'),
+        title: const Text('Create Post'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -68,16 +68,16 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           children: [
             TextField(
               controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
+              decoration: const InputDecoration(labelText: 'Description'),
             ),
             TextField(
               controller: _imageUrlController,
-              decoration: InputDecoration(labelText: 'Image URL'),
+              decoration: const InputDecoration(labelText: 'Image URL'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _createPost,
-              child: Text('Create Post'),
+              child: const Text('Create Post'),
             ),
           ],
         ),
