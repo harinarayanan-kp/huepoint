@@ -16,15 +16,25 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Future<Map<String, String>> _fetchUserDetails() async {
+  Future<Map<String, dynamic>> _fetchUserDetails() async {
     String? name = await _authService.getUserName();
     String? email = await _authService.getUserEmail();
-    return {'name': name.toString(), 'email': email.toString()};
+    String? username = await _authService.getUserUserName();
+    Map<String, dynamic>? details = await _authService.getUserDetails();
+    print("DATA= $details");
+    return {
+      'name': name,
+      'email': email,
+      'username': username,
+      'profilePicture': details?['profilePicture'],
+      'bio': details?['bio'],
+      'dateOfBirth': details?['dateOfBirth'],
+    };
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Map<String, String>>(
+    return FutureBuilder<Map<String, dynamic>>(
       future: _fetchUserDetails(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -43,19 +53,19 @@ class ProfileScreen extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     color: const Color.fromARGB(255, 142, 145, 147),
                   ),
-                  const Column(
+                  Column(
                     children: [
-                      SizedBox(height: 100),
+                      const SizedBox(height: 100),
                       Padding(
-                        padding: EdgeInsets.only(left: 50),
+                        padding: const EdgeInsets.only(left: 50),
                         child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                           child: Image(
                             width: 150,
                             height: 150,
                             fit: BoxFit.cover,
-                            image: NetworkImage(
-                                'https://img.playbook.com/XNH4lc_iT1a3gSf1Wlff-CUhJeUCL_PltGecH2BdACc/w:1000/Z3M6Ly9icmFuZGlm/eS11c2VyY29udGVu/dC1kZXYvcHJvZC9s/YXJnZV9wcmV2aWV3/cy9iODYzNWQyOS1j/YzIwLTRmYmItODVm/Mi05ZjZlNjhjNDM5/NzI.webp'),
+                            image:
+                                NetworkImage('https://i.pinimg.com/236x/6a/c7/80/6ac780f0649e8e2497148d50edf432c3.jpg'),
                           ),
                         ),
                       ),
@@ -71,7 +81,7 @@ class ProfileScreen extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          userDetails['name']!,
+                          userDetails['name'],
                           style: const TextStyle(fontSize: 24),
                         ),
                         const SizedBox(width: 10),
@@ -83,8 +93,18 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      userDetails['email']!,
+                      userDetails['email'],
                       style: const TextStyle(fontSize: 12),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Bio: ${userDetails['bio']}',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Date of Birth: ${userDetails['dateOfBirth']}',
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ],
                 ),
@@ -100,6 +120,10 @@ class ProfileScreen extends StatelessWidget {
               CustomButton(
                 label: 'View Post',
                 onPressed: () => Navigator.pushNamed(context, '/feed'),
+              ),
+              CustomButton(
+                label: 'Edit Profile',
+                onPressed: () => Navigator.pushNamed(context, '/profile-info'),
               )
             ],
           );

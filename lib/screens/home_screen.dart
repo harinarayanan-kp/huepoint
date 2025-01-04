@@ -57,8 +57,6 @@ class Homescreen extends StatelessWidget {
             children: [
               SizedBox(height: 20),
               Postcard(),
-              Postcard(),
-              Postcard(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -6,7 +6,9 @@ import 'package:huepoint/screens/home_wrapper.dart';
 import 'package:huepoint/screens/inbox_screen.dart';
 import 'package:huepoint/screens/login_screen.dart';
 import 'package:huepoint/screens/notification_screen.dart';
+import 'package:huepoint/screens/onboarding_screen.dart';
 import 'package:huepoint/screens/post_screen.dart';
+import 'package:huepoint/screens/profile_info_screen.dart';
 import 'package:huepoint/screens/signup_screen.dart';
 import 'package:huepoint/services/auth_service.dart';
 
@@ -46,6 +48,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/signup': (context) => SignupScreen(),
         '/login': (context) => LoginScreen(),
+        '/profile-info': (context) => ProfileInfoScreen(),
         '/post': (context) => CreatePostScreen(),
         '/feed': (context) => FeedScreen(),
         '/home': (context) => const HomeWrapper(),
@@ -73,7 +76,7 @@ class InitialScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else {
-          return snapshot.data != null ? const HomeWrapper() : LoginScreen();
+          return snapshot.data != null ? const HomeWrapper() : OnboardingScreen();
         }
       },
     );
