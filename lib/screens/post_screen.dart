@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreatePostScreen extends StatefulWidget {
+  const CreatePostScreen({super.key});
+
   @override
   _CreatePostScreenState createState() => _CreatePostScreenState();
 }

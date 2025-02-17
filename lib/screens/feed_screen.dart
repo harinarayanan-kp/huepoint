@@ -6,6 +6,8 @@ import 'package:huepoint/screens/post_screen.dart';
 import 'package:huepoint/screens/profile_screen.dart';
 
 class FeedScreen extends StatefulWidget {
+  const FeedScreen({super.key});
+
   @override
   _FeedScreenState createState() => _FeedScreenState();
 }
@@ -23,7 +25,7 @@ class _FeedScreenState extends State<FeedScreen> {
 
   Future<void> _fetchPosts() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:5000/api/posts/feed'));
+      final response = await http.get(Uri.parse('http://localhost:5000/api/posts/'));
       if (response.statusCode == 200) {
         setState(() {
           _posts = jsonDecode(response.body);

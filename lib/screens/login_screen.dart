@@ -63,11 +63,11 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 40),
               TextField(
                 controller: _emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
                   filled: true,
-                  fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  fillColor: Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
               const SizedBox(height: 20),
@@ -84,7 +84,7 @@ class LoginScreen extends StatelessWidget {
                         },
                         decoration: InputDecoration(
                           labelText: 'Password',
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           filled: true,
                           fillColor: const Color.fromARGB(255, 255, 255, 255),
                           suffixIcon: password.isNotEmpty
@@ -110,7 +110,7 @@ class LoginScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text('Don\'t have an account?'),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacementNamed(context, '/signup');

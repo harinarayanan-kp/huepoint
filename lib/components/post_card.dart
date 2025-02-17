@@ -41,13 +41,24 @@ class _PostcardState extends State<Postcard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    GestureDetector(
-                      onTap: _toggleLike,
-                      child: SvgPicture.asset(
-                        _isLiked ? 'assets/images/like_solid.svg' : 'assets/images/like_outline.svg',
-                        height: 30,
-                        width: 30,
-                      ),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: _toggleLike,
+                          child: SvgPicture.asset(
+                            _isLiked ? 'assets/images/like_solid.svg' : 'assets/images/like_outline.svg',
+                            height: 30,
+                            width: 30,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        // COMENT BOX
+                        GestureDetector(
+                            onTap: () {},
+                            child: SvgPicture.asset('assets/images/comment-text.svg', height: 30, width: 30)),
+                      ],
                     ),
                     SvgPicture.asset(
                       'assets/images/share-nodes.svg',

@@ -4,6 +4,8 @@ import 'package:http/http.dart';
 import 'package:huepoint/services/auth_service.dart';
 
 class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
+
   @override
   _SignupScreenState createState() => _SignupScreenState();
 }

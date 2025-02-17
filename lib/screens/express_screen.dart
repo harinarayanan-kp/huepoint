@@ -112,7 +112,7 @@ class _ReadScreenState extends State<ReadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('READ')),
-      body: Text('READ'),
+      body: const Text('READ'),
     );
   }
 }
@@ -135,6 +135,8 @@ class _DeleteScreenState extends State<DeleteScreen> {
 }
 
 class BookApp extends StatelessWidget {
+  const BookApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -144,6 +146,8 @@ class BookApp extends StatelessWidget {
 }
 
 class BooksScreen extends StatefulWidget {
+  const BooksScreen({super.key});
+
   @override
   _BooksScreenState createState() => _BooksScreenState();
 }
@@ -172,7 +176,7 @@ class _BooksScreenState extends State<BooksScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Books'),
+        title: const Text('Books'),
       ),
       body: ListView.builder(
         itemCount: _books.length,

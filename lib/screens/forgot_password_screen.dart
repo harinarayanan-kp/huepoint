@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class ForgotPasswordScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
 
+  ForgotPasswordScreen({super.key});
+
   void _resetPassword() {
     final email = _emailController.text;
     print('Reset password for email: $email');

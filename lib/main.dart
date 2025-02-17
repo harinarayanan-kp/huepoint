@@ -76,7 +76,7 @@ class InitialScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else {
-          return snapshot.data != null ? const HomeWrapper() : OnboardingScreen();
+          return snapshot.data != null ? const HomeWrapper() : const OnboardingScreen();
         }
       },
     );

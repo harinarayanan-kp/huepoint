@@ -53,11 +53,11 @@ class ProfileScreen extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     color: const Color.fromARGB(255, 142, 145, 147),
                   ),
-                  Column(
+                  const Column(
                     children: [
-                      const SizedBox(height: 100),
+                      SizedBox(height: 100),
                       Padding(
-                        padding: const EdgeInsets.only(left: 50),
+                        padding: EdgeInsets.only(left: 50),
                         child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                           child: Image(

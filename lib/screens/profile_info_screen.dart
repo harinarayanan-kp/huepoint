@@ -6,6 +6,8 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileInfoScreen extends StatefulWidget {
+  const ProfileInfoScreen({super.key});
+
   @override
   _ProfileInfoScreenState createState() => _ProfileInfoScreenState();
 }
