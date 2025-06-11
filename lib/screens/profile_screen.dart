@@ -43,23 +43,23 @@ class ProfileScreen extends StatelessWidget {
           return Center(child: Text('Error _fetchUserDetails: ${snapshot.error}'));
         } else {
           final userDetails = snapshot.data!;
-          return Column(
+          return Stack(
             children: [
-              Stack(
-                alignment: Alignment.topLeft,
+              Column(
                 children: [
-                  Container(
-                    height: 200,
-                    width: MediaQuery.of(context).size.width,
-                    color: const Color.fromARGB(255, 142, 145, 147),
-                  ),
-                  const Column(
+                  Stack(
+                    clipBehavior: Clip.none,
                     children: [
-                      SizedBox(height: 100),
-                      Padding(
-                        padding: EdgeInsets.only(left: 50),
+                      Container(
+                        height: 200,
+                        width: MediaQuery.of(context).size.width,
+                        color: const Color.fromARGB(255, 142, 145, 147),
+                      ),
+                      Positioned(
+                        top: 130,
+                        left: MediaQuery.of(context).size.width / 2 - 75, // centers the image
                         child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          borderRadius: BorderRadius.circular(30),
                           child: Image(
                             width: 150,
                             height: 150,
@@ -71,60 +71,78 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 50),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+                  const SizedBox(height: 90), // Add space for the overlapping image
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          userDetails['name'],
-                          style: const TextStyle(fontSize: 24),
+                        Row(
+                          children: [
+                            Text(
+                              userDetails['name'] ?? '',
+                              style: const TextStyle(fontSize: 24),
+                            ),
+                            const SizedBox(width: 10),
+                            SvgPicture.asset(
+                              'assets/images/verified_badge.svg',
+                              height: 30,
+                              width: 30,
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 10),
-                        SvgPicture.asset(
-                          'assets/images/verified_badge.svg',
-                          height: 30,
-                          width: 30,
+                        const SizedBox(height: 4),
+                        Text(
+                          '@${userDetails['username'] ?? ''}',
+                          style: const TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                        Text(
+                          ' ${userDetails['email'] ?? ''}',
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Bio: ${userDetails['bio'] ?? ''}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Date of Birth: ${userDetails['dateOfBirth'] ?? ''}',
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ],
                     ),
-                    Text(
-                      ' ${userDetails['email']}',
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Bio: ${userDetails['bio']}',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Date of Birth: ${userDetails['dateOfBirth']}',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ],
+                  ),
+                  CustomButton(
+                    label: 'LOGOUT',
+                    onPressed: () => _logout(context),
+                  ),
+                  CustomButton(
+                    label: 'Create POST',
+                    onPressed: () => Navigator.pushNamed(context, '/post'),
+                  ),
+                  CustomButton(
+                    label: 'View Post',
+                    onPressed: () => Navigator.pushNamed(context, '/feed'),
+                  ),
+                  CustomButton(
+                    label: 'Edit Profile',
+                    onPressed: () => Navigator.pushNamed(context, '/profile-info'),
+                  )
+                ],
+              ),
+              // Settings icon at top right
+              Positioned(
+                top: 16,
+                right: 16,
+                child: IconButton(
+                  icon: const Icon(Icons.settings, size: 32, color: Colors.white),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/settings');
+                  },
+                  tooltip: 'Settings',
                 ),
               ),
-              CustomButton(
-                label: 'LOGOUT',
-                onPressed: () => _logout(context),
-              ),
-              CustomButton(
-                label: 'Create POST',
-                onPressed: () => Navigator.pushNamed(context, '/post'),
-              ),
-              CustomButton(
-                label: 'View Post',
-                onPressed: () => Navigator.pushNamed(context, '/feed'),
-              ),
-              CustomButton(
-                label: 'Edit Profile',
-                onPressed: () => Navigator.pushNamed(context, '/profile-info'),
-              )
             ],
           );
         }

@@ -1,76 +1,143 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-class Postcard extends StatefulWidget {
-  const Postcard({super.key});
+class PostCard extends StatefulWidget {
+  final String user;
+  final String avatar;
+  final String image;
+  final String caption;
+  final String likes;
+  final String comments;
+  final String time;
+
+  const PostCard({
+    super.key,
+    required this.user,
+    required this.avatar,
+    required this.image,
+    required this.caption,
+    required this.likes,
+    required this.comments,
+    required this.time,
+  });
 
   @override
-  _PostcardState createState() => _PostcardState();
+  State<PostCard> createState() => _PostCardState();
 }
 
-class _PostcardState extends State<Postcard> {
-  bool _isLiked = false;
+class _PostCardState extends State<PostCard> {
+  bool isLiked = false;
+  late int likeCount;
+
+  @override
+  void initState() {
+    super.initState();
+    likeCount = int.tryParse(widget.likes) ?? 0;
+  }
 
   void _toggleLike() {
     setState(() {
-      _isLiked = !_isLiked;
+      isLiked = !isLiked;
+      likeCount += isLiked ? 1 : -1;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
-        child: Column(
-          children: [
-            GestureDetector(
-              onDoubleTap: () {
-                _toggleLike();
-              },
-              child: const Image(
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  image: NetworkImage('https://i.pinimg.com/236x/6a/c7/80/6ac780f0649e8e2497148d50edf432c3.jpg')),
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(22),
+      ),
+      elevation: 6,
+      shadowColor: Colors.black.withOpacity(0.08),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ListTile(
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(widget.avatar),
+              radius: 24,
             ),
-            Container(
-              color: const Color(0xFF424336),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: _toggleLike,
-                          child: SvgPicture.asset(
-                            _isLiked ? 'assets/images/like_solid.svg' : 'assets/images/like_outline.svg',
-                            height: 30,
-                            width: 30,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        // COMENT BOX
-                        GestureDetector(
-                            onTap: () {},
-                            child: SvgPicture.asset('assets/images/comment-text.svg', height: 30, width: 30)),
-                      ],
-                    ),
-                    SvgPicture.asset(
-                      'assets/images/share-nodes.svg',
-                      height: 30,
-                      width: 30,
-                    ),
-                  ],
+            title: Text(
+              widget.user,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(widget.time),
+            trailing: const Icon(Icons.more_vert),
+          ),
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(0), bottom: Radius.circular(0)),
+                child: Image.network(
+                  widget.image,
+                  width: double.infinity,
+                  height: 180,
+                  fit: BoxFit.cover,
                 ),
               ),
+              Positioned(
+                top: 10,
+                right: 16,
+                child: GestureDetector(
+                  onTap: _toggleLike,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.85),
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.08),
+                          blurRadius: 6,
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      isLiked ? Icons.favorite : Icons.favorite_border,
+                      color: isLiked ? Colors.red : Colors.grey,
+                      size: 28,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: Text(
+              widget.caption,
+              style: const TextStyle(fontSize: 16),
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: _toggleLike,
+                  child: Row(
+                    children: [
+                      Icon(
+                        isLiked ? Icons.favorite : Icons.favorite_border,
+                        color: isLiked ? Colors.red : Colors.grey,
+                        size: 22,
+                      ),
+                      const SizedBox(width: 4),
+                      Text('$likeCount'),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 18),
+                const Icon(Icons.comment, color: Colors.blueGrey, size: 20),
+                const SizedBox(width: 4),
+                Text(widget.comments),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+        ],
       ),
     );
   }

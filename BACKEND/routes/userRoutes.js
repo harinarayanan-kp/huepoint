@@ -18,12 +18,12 @@ const path = require("path");
 // Route to update user profile information
 router.put("/:userId", async (req, res) => {
   const { userId } = req.params;
-  const { bio, dateOfBirth, profilePicture = "" } = req.body;
+  const { bio, dateOfBirth } = req.body; // Removed profilePicture
 
   try {
     const user = await User.findByIdAndUpdate(
       userId,
-      { bio, dateOfBirth, profilePicture },
+      { bio, dateOfBirth }, // Only update bio and dateOfBirth
       { new: true }
     );
     if (!user) {
@@ -31,7 +31,7 @@ router.put("/:userId", async (req, res) => {
     }
     res.json(user);
   } catch (error) {
-    console.error("Error updating user profile:", error); // Debug statement
+    console.error("Error updating user profile:", error);
     res.status(500).json({ error: "Failed to update user profile" });
   }
 });

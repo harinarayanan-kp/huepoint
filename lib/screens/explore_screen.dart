@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-// import 'package:huepoint/components/explore_card.dart';
-// import 'package:huepoint/components/markert_card.dart';
 
 class Explorescreen extends StatelessWidget {
   const Explorescreen({super.key});
@@ -52,8 +50,6 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
   void _performSearch() {
     final query = _controller.text;
-    print(query);
-    // Add your search logic here
   }
 
   @override

@@ -9,6 +9,7 @@ import 'package:huepoint/screens/notification_screen.dart';
 import 'package:huepoint/screens/onboarding_screen.dart';
 import 'package:huepoint/screens/post_screen.dart';
 import 'package:huepoint/screens/profile_info_screen.dart';
+import 'package:huepoint/screens/settings_screen.dart';
 import 'package:huepoint/screens/signup_screen.dart';
 import 'package:huepoint/services/auth_service.dart';
 
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
         '/post': (context) => const CreatePostScreen(),
         '/feed': (context) => const FeedScreen(),
         '/home': (context) => const HomeWrapper(),
+        '/settings': (context) => const SettingsScreen(),
         '/create': (context) => const CreateScreen(),
         '/read': (context) => const ReadScreen(),
         '/update': (context) => const UpdateScreen(),

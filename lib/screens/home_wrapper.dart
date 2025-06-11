@@ -4,7 +4,7 @@ import 'package:huepoint/screens/market_screen.dart';
 import 'package:huepoint/screens/explore_screen.dart';
 import 'package:huepoint/screens/home_screen.dart';
 import 'package:huepoint/screens/profile_screen.dart';
-import 'package:huepoint/screens/search_screen.dart';
+import 'package:huepoint/screens/community_screen.dart';
 
 class HomeWrapper extends StatefulWidget {
   const HomeWrapper({super.key});
@@ -20,7 +20,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
     const Homescreen(),
     const Explorescreen(),
     const MarketScreen(),
-    const Searchscreen(),
+    const CommunityScreen(),
     ProfileScreen(),
   ];
 
