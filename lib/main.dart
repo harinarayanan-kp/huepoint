@@ -18,7 +18,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
         ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            elevation: 2, // Apply elevation for shadow effect
+            elevation: 2,
             shadowColor: const Color(0xFF000000),
             foregroundColor: const Color.fromARGB(255, 0, 0, 0),
             backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -46,11 +45,11 @@ class MyApp extends StatelessWidget {
       ),
       home: const InitialScreen(),
       routes: <String, WidgetBuilder>{
-        '/signup': (context) => SignupScreen(),
+        '/signup': (context) => const SignupScreen(),
         '/login': (context) => LoginScreen(),
-        '/profile-info': (context) => ProfileInfoScreen(),
-        '/post': (context) => CreatePostScreen(),
-        '/feed': (context) => FeedScreen(),
+        '/profile-info': (context) => const ProfileInfoScreen(),
+        '/post': (context) => const CreatePostScreen(),
+        '/feed': (context) => const FeedScreen(),
         '/home': (context) => const HomeWrapper(),
         '/create': (context) => const CreateScreen(),
         '/read': (context) => const ReadScreen(),

@@ -1,10 +1,12 @@
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import '../constants.dart';
 
 class AuthService {
   // final String baseUrl = 'https://huepoint-backend.vercel.app/api/auth';
-  final String baseUrl = 'http://localhost:5000/api/auth';
+  // final String baseUrl = 'http://localhost:5000/api/auth';
+  final String baseUrl = '${apiBaseUrl}auth';
 
   Future<Map<String, dynamic>> signup(String name, String email, String password, String username) async {
     try {
@@ -40,26 +42,6 @@ class AuthService {
       throw Exception('Signup failed: $e');
     }
   }
-  // Future<Map<String, dynamic>> signup(String name, String email, String password, String username) async {
-  //   final response = await http.post(
-  //     Uri.parse('$baseUrl/signup'),
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: jsonEncode({'name': name, 'email': email, 'password': password, 'username': username}),
-  //   );
-
-  //   if (response.statusCode == 201) {
-  //     final responseData = jsonDecode(response.body);
-  //     // Save the token, username, and email in SharedPreferences
-  //     final prefs = await SharedPreferences.getInstance();
-  //     await prefs.setString('token', responseData['token']);
-  //     await prefs.setString('userId', responseData['user']['_id']);
-  //     await prefs.setString('username', responseData['user']['username']);
-  //     await prefs.setString('email', responseData['user']['email']);
-  //     return responseData;
-  //   } else {
-  //     throw Exception('Signup failed: ${response.body}');
-  //   }
-  // }
 
   Future<Map<String, dynamic>> login(String email, String password) async {
     try {

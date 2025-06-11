@@ -40,7 +40,7 @@ class ProfileScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          return Center(child: Text('Error _fetchUserDetails: ${snapshot.error}'));
         } else {
           final userDetails = snapshot.data!;
           return Column(
@@ -93,7 +93,7 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      userDetails['email'],
+                      ' ${userDetails['email']}',
                       style: const TextStyle(fontSize: 12),
                     ),
                     const SizedBox(height: 10),
