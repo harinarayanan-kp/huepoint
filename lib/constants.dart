@@ -1,5 +1,5 @@
-const String apiBaseUrl = "http://localhost:5000/api/";
-// const String apiBaseUrl = "https://huepoint-backend.vercel.app/api/";
+// const String apiBaseUrl = "http://localhost:5000/api/";
+const String apiBaseUrl = "https://huepoint-backend.vercel.app/api/";
 
 // const String loginEndpoint = "/auth/login";
 // const String registerEndpoint = "/auth/register";
